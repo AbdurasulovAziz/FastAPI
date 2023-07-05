@@ -1,14 +1,17 @@
-from sqlalchemy import Column, Integer, String
-
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy.orm import relationship
+from account.models import UserModel
 from db.database import Base
 
 
-class Author(Base):
-    __tablename__ = 'authors'
+class BookModel(Base):
+    __tablename__ = 'books'
 
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True)
-    password = Column(String)
-    first_name = Column(String)
-    second_name = Column(String)
+    title = Column(String, nullable=False)
+    description = Column(String)
+    date = Column(Date, nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship(UserModel, cascade='all, delete')
+
 
