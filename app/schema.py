@@ -4,7 +4,6 @@ from pydantic import BaseModel
 class BookSchema(BaseModel):
     title: str
     description: str | None = None
-    user_id: int
 
     class Config:
         orm_mode = True

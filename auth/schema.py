@@ -15,7 +15,3 @@ class UserRegistrationSchema(BaseModel):
     class Config:
         orm_mode = True
 
-
-class TokenData(BaseModel):
-    email: EmailStr
-    exp: int
