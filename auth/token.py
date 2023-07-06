@@ -4,12 +4,11 @@ import os
 import jwt
 from dotenv import load_dotenv
 from fastapi.security import HTTPBearer
-from pydantic import EmailStr
 
 load_dotenv()
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 security = HTTPBearer()
 
