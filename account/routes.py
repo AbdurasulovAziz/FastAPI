@@ -1,9 +1,10 @@
 from fastapi import Depends, APIRouter
+from sqlalchemy import update, select
 
 from account.models import UserModel
 from account.schema import UserUpdateSchema
-from app.models import BookModel
-from db.database import SessionLocal, get_db
+from app.models import Book
+from db.database import AsyncSession, get_db
 from account.views import get_current_user
 
 router = APIRouter()
@@ -18,23 +19,22 @@ async def get_profile(user: UserModel = Depends(get_current_user)):
 async def update_profile(
         data: UserUpdateSchema,
         user: UserModel = Depends(get_current_user),
-        db: SessionLocal = Depends(get_db)
+        db: AsyncSession = Depends(get_db)
 ):
+    for field, value in data.dict(exclude_unset=True).items():
+        setattr(user, field, value)
 
-    update_data = data.dict(exclude_unset=True)
-
-    for key, value in update_data.items():
-        setattr(user, key, value)
-
-    db.commit()
-    db.refresh(user)
+    await db.commit()
+    await db.refresh(user)
 
     return user
 
 
 @router.get("/mybooks/")
-async def get_mybooks(user: UserModel = Depends(get_current_user), db: SessionLocal = Depends(get_db)):
-    return db.query(BookModel).filter(BookModel.user_id == user.id).all()
+async def get_mybooks(
+        user: UserModel = Depends(get_current_user),
+        db: AsyncSession = Depends(get_db)):
+    query = select(Book).where(Book.user_id == user.id)
+    books = await db.execute(query)
 
-
-
+    return books.scalars().all()

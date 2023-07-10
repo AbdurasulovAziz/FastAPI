@@ -3,23 +3,23 @@ from fastapi import APIRouter, Depends, HTTPException
 from account.models import UserModel
 from auth.schema import UserLoginSchema, UserRegistrationSchema
 from auth.views import hash_password, authenticate_user, get_user
-from db.database import SessionLocal, get_db
+from db.database import AsyncSession, get_db
 
-router = APIRouter()
+router = APIRouter(prefix="/auth")
 
 
-@router.post("/auth/login/")
-async def login(data: UserLoginSchema, db: SessionLocal = Depends(get_db)):
+@router.post("/login")
+async def login(data: UserLoginSchema, db: AsyncSession = Depends(get_db)):
 
-    user = get_user(data.email, db)
+    user = await get_user(data.email, db)
 
     token = authenticate_user(user, data.password)
 
     return token
 
 
-@router.post("/auth/registration/")
-async def registration(user: UserRegistrationSchema, db: SessionLocal = Depends(get_db)):
+@router.post("/registration")
+async def registration(user: UserRegistrationSchema, db: AsyncSession = Depends(get_db)):
     try:
         new_user = UserModel(**user.dict())
         password = hash_password(new_user.password)
@@ -27,7 +27,8 @@ async def registration(user: UserRegistrationSchema, db: SessionLocal = Depends(
         new_user.password = password
 
         db.add(new_user)
-        db.commit()
+        await db.commit()
+        await db.refresh(new_user)
 
         return new_user
     except Exception:

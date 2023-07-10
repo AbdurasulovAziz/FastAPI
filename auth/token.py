@@ -2,13 +2,10 @@ from datetime import datetime, timedelta
 import os
 
 import jwt
-from dotenv import load_dotenv
 from fastapi.security import HTTPBearer
 
-load_dotenv()
+from config import settings
 
-
-SECRET_KEY = os.environ.get("SECRET_KEY")
 
 security = HTTPBearer()
 
@@ -21,7 +18,7 @@ def create_token(email: str) -> str:
         "exp": expiry
     }
 
-    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
 
     return token
 

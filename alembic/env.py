@@ -28,11 +28,14 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-
 from db.database import Base
 
+from app.models import Book
+from account.models import UserModel
 
 target_metadata = Base.metadata
+
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
