@@ -28,10 +28,10 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-from db.database import Base
+from core.db import Base
 
-from app.models import Book
-from account.models import UserModel
+from app.library.models import Book
+from app.account.models import User
 
 target_metadata = Base.metadata
 

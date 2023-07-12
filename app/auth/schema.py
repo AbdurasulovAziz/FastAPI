@@ -5,6 +5,9 @@ class UserLoginSchema(BaseModel):
     email: EmailStr
     password: str
 
+    class Config:
+        orm_mode = True
+
 
 class UserRegistrationSchema(BaseModel):
     email: EmailStr

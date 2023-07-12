@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class BookSchema(BaseModel):
+class BookCreationSchema(BaseModel):
     title: str
     description: str | None = None
 

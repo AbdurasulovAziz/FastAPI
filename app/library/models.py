@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from account.models import UserModel
-from db.database import Base
+from app.account.models import User
+from core.db import Base
 
 
 class Book(Base):
@@ -12,6 +12,6 @@ class Book(Base):
     description = Column(String)
     create_date = Column(Date, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship(UserModel)
+    user = relationship(User)
 
 

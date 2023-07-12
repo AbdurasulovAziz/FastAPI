@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from account.routes import router as account_router
-from app.routes import router as app_router
-from auth.routes import router as auth_router
+from app.account.routes import router as account_router
+from app.library.routes import router as app_router
+from app.auth.routes import router as auth_router
 app = FastAPI()
 
 app.include_router(account_router)
