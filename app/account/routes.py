@@ -1,8 +1,9 @@
-from fastapi import Depends, APIRouter
+from fastapi import APIRouter, Depends
+
 from app.account.schema import UserUpdateSchema
+from app.account.services import UserService
 from app.auth.token import decode_token
 from core.db import AsyncSession, get_db
-from app.account.services import UserService
 
 router = APIRouter(prefix="/account")
 

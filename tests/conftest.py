@@ -4,17 +4,18 @@ from typing import AsyncGenerator
 
 import pytest
 from httpx import AsyncClient
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.account.models import User
 from app.auth.token import create_token
 from app.auth.views import hash_password
 from app.library.models import Book
-from core.db import get_db, Base
+from core.config import settings
+from core.db import Base, get_db
 from main import app
 
-DATABASE_URL_TEST = "postgresql+asyncpg://postgres:password@localhost:5431/postgres"
+DATABASE_URL_TEST = settings.DATABASE_URL_TEST
 
 engine_test = create_async_engine(DATABASE_URL_TEST)
 
@@ -109,24 +110,3 @@ async def fill_db():
 async def session():
     async with async_session_maker() as session:
         yield session
-
-
-# @pytest_asyncio.fixture
-# async def fill_db(db_session):
-#
-#     test_book = Book(
-#         title='Тестовая книга',
-#         description='Описание тестовой книги',
-#         create_date=datetime.datetime.utcnow(),
-#         user_id=1
-#     )
-#
-#     async for session in db_session:
-#         session.add(test_book)
-#         await session.commit()
-#
-#     yield
-#
-#     async for session in db_session:
-#         await session.delete(test_book)
-#         await session.commit()

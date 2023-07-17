@@ -13,7 +13,7 @@ async def login(user_data: UserLoginSchema, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/registration", status_code=201)
-async def registration(
+async def register(
     user_data: UserRegistrationSchema, db: AsyncSession = Depends(get_db)
 ):
-    return await AuthService(user_data, db).registrate_user()
+    return await AuthService(user_data, db).register_user()

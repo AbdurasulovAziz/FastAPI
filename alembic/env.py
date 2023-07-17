@@ -1,17 +1,15 @@
-import sys
-from logging.config import fileConfig
-
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
-from alembic import context
-
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 import os
+import sys
+from logging.config import fileConfig
 
+from sqlalchemy import engine_from_config, pool
 
-DATABASE_URL = "postgresql://aziz:abdurasulov@localhost/fastapi_db"
+from alembic import context
+from core.config import settings
+
+DATABASE_URL = settings.DATABASE_URL
 config = context.config
 
 # this will overwrite the ini-file sqlalchemy.url path
@@ -28,10 +26,9 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-from core.db import Base
-
-from app.library.models import Book
 from app.account.models import User
+from app.library.models import Book
+from core.db import Base
 
 target_metadata = Base.metadata
 

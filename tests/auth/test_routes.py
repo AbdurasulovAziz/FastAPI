@@ -15,7 +15,7 @@ class TestAuthRoutes:
             "second_name": "test_second_name",
         }
 
-        request = await ac.post(url="/auth/registration", json=request_data)
+        response = await ac.post(url="/auth/registration", json=request_data)
 
         query = select(User).where(User.email == request_data["email"])
 
@@ -23,13 +23,13 @@ class TestAuthRoutes:
         user._to_dict()["password"] = hash_password(request_data["password"])
 
         assert user is not None, "Пользователь не был создан"
-        assert request.status_code == 201, "Статус код не равен 201"
-        assert user._to_dict() == request.json(), "Данные не сходятся"
+        assert response.status_code == 201, "Статус код не равен 201"
+        assert user._to_dict() == response.json(), "Данные не сходятся"
 
     async def test_login(
         self, session: AsyncSession, ac: AsyncClient, fill_db, test_user_data: dict
     ):
-        request = await ac.post(
+        response = await ac.post(
             url="/auth/login",
             json={
                 "email": test_user_data["email"],
@@ -37,5 +37,5 @@ class TestAuthRoutes:
             },
         )
 
-        assert request.status_code == 200
-        assert request.json().get("token") is not None
+        assert response.status_code == 200
+        assert response.json().get("token") is not None

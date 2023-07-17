@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.account.models import User
 from app.account.services import UserService
 from app.auth.schema import UserLoginSchema, UserRegistrationSchema
@@ -19,7 +20,7 @@ class AuthService:
 
         return {"token": token}
 
-    async def registrate_user(self):
+    async def register_user(self):
         new_user = User(**self.data)
         password = hash_password(new_user.password)
 

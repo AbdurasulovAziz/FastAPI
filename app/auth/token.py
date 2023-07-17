@@ -1,12 +1,10 @@
 from datetime import datetime, timedelta
 
-import jwt
 from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jwt import decode, PyJWTError
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from jwt import PyJWTError, decode, encode
 
 from core.config import settings
-
 
 security = HTTPBearer()
 
@@ -16,7 +14,7 @@ def create_token(email: str) -> str:
 
     payload = {"email": email, "exp": expiry}
 
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+    token = encode(payload, settings.SECRET_KEY, algorithm="HS256")
 
     return token
 
