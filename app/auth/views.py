@@ -1,13 +1,10 @@
 import hashlib
 
 from fastapi import HTTPException
-from pydantic import EmailStr
-from sqlalchemy import select
 from starlette import status
 
 from app.account.models import User
 from app.auth.token import create_token
-from core.db import AsyncSession
 
 
 def hash_password(password: str) -> str:
@@ -21,9 +18,11 @@ def hash_password(password: str) -> str:
 
 
 def check_authentication_data(user: User, password: str):
-
     if user.password != hash_password(password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неправильное имя пользователя или пароль")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Неправильное имя пользователя или пароль",
+        )
 
     access_token = create_token(user.email)
 

@@ -12,5 +12,3 @@ class BookCreationSchema(BaseModel):
 class BookUpdateSchema(BaseModel):
     title: str | None = None
     description: str | None = None
-
-

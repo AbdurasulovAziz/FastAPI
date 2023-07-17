@@ -1,4 +1,3 @@
-
 from pydantic import BaseSettings
 
 
@@ -7,8 +6,8 @@ class AppSettings(BaseSettings):
     DATABASE_URL: str
 
     class Config:
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
+        env_file = ".env"
+        env_file_encoding = "utf-8"
 
 
 settings = AppSettings()

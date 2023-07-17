@@ -17,4 +17,3 @@ class UserRegistrationSchema(BaseModel):
 
     class Config:
         orm_mode = True
-

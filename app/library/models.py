@@ -14,4 +14,11 @@ class Book(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship(User)
 
-
+    def _to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "create_date": self.create_date.isoformat(),
+            "user_id": self.user_id,
+        }
